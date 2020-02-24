@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/color_skins.css">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css">
+    <link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="vendor/toastr/toastr.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animate.css">
+</head>
+<body class="theme-cyan">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <div class="vertical-align-wrap">
+        <div class="vertical-align-middle auth-main">
+            <div id="toast-container" class="toast-top-right" th:if="${userCreated}">
+                <div class="toast toast-info" aria-live="polite" style="" id="userCreatedToast">
+                    <button type="button" class="toast-close-button" role="button">×</button>
+                    <div class="toast-message">This is general theme info</div>
+                </div>
+            </div>
+            <div class="auth-box">
+                <div class="card">
+                    <div class="header">
+                        <p class="lead">Créer un compte</p>
+                    </div>
+                    <div class="body">
+                        <form class="form-auth-small" method="post" th:action="@{/page-register}">
+                            <div class="form-group">
+                                <label for="lastName" class="control-label sr-only">Nom</label>
+                                <input type="text" class="form-control" placeholder="Nom" th:value="${user.lastName}" id="lastName" name="lastName" roleId="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName" class="control-label sr-only">Prenom(s)</label>
+                                <input type="text" class="form-control"  placeholder="Prenom(s)" th:value="${user.firstName}" id="firstName" name="firstName" roleId="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="control-label sr-only">Telephone</label>
+                                <input type="text" class="form-control"  placeholder="xxx-xxx-xx" th:value="${user.phone}" id="phone" name="phone" roleId="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="control-label sr-only">Email</label>
+                                <input type="email" class="form-control" placeholder="Email" th:value="${user.email}" id="email" name="email" roleId="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username" class="control-label sr-only">Nom Utilisateur</label>
+                                <input type="text" class="form-control" placeholder="Nom Utilisateur" th:value="${user.username}" id="username" name="username" roleId="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label sr-only">Mot de passe</label>
+                                <input type="password" class="form-control"  placeholder="Mot de passe" th:value="${user.password}" id="password" name="password" roleId="password" required>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="fancy-checkbox element-left">
+                                    <input type="checkbox">
+                                    <span>Afficher le mot de passe</span>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">ENREGISTRER</button>
+                            <div class="bottom">
+                                <span class="helper-text">Avez vous déjà un compte ? <a th:href="@{/login}">Connectez-vous</a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END WRAPPER -->
+<!-- END WRAPPER -->
+<script src="bundles/libscripts.bundle.js"></script>
+<script src="bundles/vendorscripts.bundle.js"></script>
+
+<script src="bundles/chartist.bundle.js"></script>
+<script src="bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
+<script src="vendor/toastr/toastr.js"></script>
+
+<script src="bundles/mainscripts.bundle.js"></script>
+<script>
+    $( document ).ready(function() {
+        setTimeout(function(){
+            $("#userCreatedToast").addClass("animate bounceOut");
+        }, 5000);
+        setTimeout(function(){
+            $("#userCreatedToast").hide();
+        }, 5500);
+    });
+</script>
+</body>
+</html>

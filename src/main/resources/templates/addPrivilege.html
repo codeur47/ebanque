@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-cyan">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Adminitration</li>
+                            <li class="breadcrumb-item active">Ajouter un Privilège</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="body">
+                            <div class="demo-masked-input">
+                                <div class="row">
+                                    <form  th:action="@{/addPrivilege}" th:object="${privilege}" method="post" >
+                                        <div class="col-lg-6 col-md-6">
+                                            <b>Libelle privilège</b>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-user"></i></span>
+                                                </div>
+                                                <input type="text" th:field="*{name}" id="name" class="form-control date" placeholder="Libelle privilege">
+                                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4" style="padding-top: 20px;padding-left: 100px;">
+                                            <button type="submit" class="btn btn-outline-primary">Primary</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Liste des privilèges</h2>
+                        </div>
+                        <div class="body table-responsive social_media_table">
+                            <table class="table table-hover m-b-0">
+                                <tbody>
+                                    <tr>
+                                        <td>LinkedIn</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info" title="Modifier"><i class="fa fa-edit"></i></button>
+                                            <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Supprimer"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/common :: body-bottom-scripts"/>
+</body>
+
+<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
+</html>
