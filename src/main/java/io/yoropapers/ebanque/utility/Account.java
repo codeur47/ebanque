@@ -34,13 +34,6 @@ public abstract class Account implements Serializable {
         this.accountBalance = accountBalance;
     }
 
-    public String getAccountType() {
-        return this.accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
 
     public Account accountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -49,11 +42,6 @@ public abstract class Account implements Serializable {
 
     public Account accountBalance(BigDecimal accountBalance) {
         this.accountBalance = accountBalance;
-        return this;
-    }
-
-    public Account accountType(String accountType) {
-        this.accountType = accountType;
         return this;
     }
     

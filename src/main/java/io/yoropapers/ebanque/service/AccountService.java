@@ -12,6 +12,4 @@ import io.yoropapers.ebanque.model.User;
 public interface AccountService {
     PrimaryAccount createPrimaryAccount(User user);
     SavingsAccount createSavingsAccount(User user);
-    void deposit(String accountType, double amount, Principal principal);
-    void withdraw(String accountType, double amount, Principal principal);
 }

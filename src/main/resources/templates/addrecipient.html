@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-cyan">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Gestion Bénéficiaire</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Ajouter un bénéficiaire</h2>
+                        </div>
+                        <div class="body">
+                            <form id="basic-form" th:action="@{/saveRecipient}" method="post" >
+                                <input type="hidden" name="id" th:value="${recipient.id}" />
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Nom</label>
+                                    <input type="text" class="form-control"  placeholder="Nom" th:value="${recipient.lastName}" 
+                                           id="lastName" name="lastName" roleId="lastName" required>
+                                           
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">Prenom(s)</label>
+                                    <input type="text" class="form-control"  placeholder="Prenom(s)" th:value="${recipient.firstName}" 
+                                           id="firstName" name="firstName" roleId="firstName" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control"  placeholder="Email" th:value="${recipient.email}" 
+                                           id="email" name="email" roleId="email" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="phone">Telephone</label>
+                                    <input type="tel" class="form-control"  placeholder="xxx xxx xx" th:value="${recipient.phone}" 
+                                           id="phone" name="phone" roleId="phone" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="accountNumber">Numéro Compte</label>
+                                    <input type="text" class="form-control"  placeholder="Numéro Compte" th:value="${recipient.accountNumber}" 
+                                           id="accountNumber" name="accountNumber" roleId="accountNumber" required>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" name="description" id="description" rows="5"
+                                              placeholder="Description" 
+                                              th:value="${recipient.description}" th:text="${recipient.description}" cols="30" required></textarea>
+                                </div>
+                                <input type="hidden"
+                                       name="${_csrf.parameterName}"
+                                       value="${_csrf.token}"/>
+                                <hr>
+                                <button type="submit" class="btn btn-outline-primary" style="margin-left: 15px;">Enegistrer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <div th:replace="fragments/common :: body-bottom-scripts"/>
+</body>
+
+<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
+</html>

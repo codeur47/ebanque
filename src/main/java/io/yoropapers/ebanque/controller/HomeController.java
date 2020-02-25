@@ -2,8 +2,12 @@ package io.yoropapers.ebanque.controller;
 
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import io.yoropapers.ebanque.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +28,13 @@ public class HomeController {
 
     private UserService userService;
     private RoleService roleService;
+    private TransactionService transactionService;
 
     @Autowired
-    public HomeController(UserService userService, RoleService roleService) {
+    public HomeController(UserService userService, RoleService roleService,TransactionService transactionService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping("/")
@@ -75,6 +81,15 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("primaryAccount", user.getPrimaryAccount());
         model.addAttribute("savingsAccount", user.getSavingsAccount());
+        model.addAttribute("primaryTransactionList", transactionService.findPrimaryTransactionListByUsername(user.getUsername()).stream()
+                                                                    .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
+                                                                    .limit(5)
+                                                                    .collect(Collectors.toList()));
+        model.addAttribute("savingsTransactionList", transactionService.findSavingsTransactionListByUsername(user.getUsername()).stream()
+                                                                    .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
+                                                                    .limit(5)
+                                                                    .collect(Collectors.toList()));
+
         return "dashboard";
     }
 

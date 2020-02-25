@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 
 import io.yoropapers.ebanque.utility.Transaction;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * SavingsTransaction
  */
@@ -33,6 +36,11 @@ public class SavingsTransaction extends Transaction {
 
     public SavingsTransaction(Long id, SavingsAccount savingsAccount) {
         this.id = id;
+        this.savingsAccount = savingsAccount;
+    }
+
+    public SavingsTransaction(Date date, String s, String typeTransaction, String status, BigDecimal amount, BigDecimal accountBalance, SavingsAccount savingsAccount) {
+        super(date,s,typeTransaction,status,amount,accountBalance);
         this.savingsAccount = savingsAccount;
     }
 

@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 
 import io.yoropapers.ebanque.service.GenerateAccountNumber;
 
+import javax.transaction.Transactional;
+
 /**
  * GenerateAccountNumberImpl
  */
 @Service
+@Transactional
 public class GenerateAccountNumberImpl implements GenerateAccountNumber{
 
     @Override

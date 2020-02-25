@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 
 import io.yoropapers.ebanque.utility.Transaction;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * PrimaryTransaction
  */
@@ -27,5 +30,12 @@ public class PrimaryTransaction extends Transaction {
     @ManyToOne
     @JoinColumn(name = "primary_account_id")
     private PrimaryAccount primaryAccount;
-    
+
+    public PrimaryTransaction() {
+    }
+
+    public PrimaryTransaction(Date date, String s, String typeTransaction, String status, BigDecimal amount, BigDecimal accountBalance, PrimaryAccount primaryAccount) {
+        super(date,s,typeTransaction,status,amount,accountBalance);
+        this.primaryAccount = primaryAccount;
+    }
 }

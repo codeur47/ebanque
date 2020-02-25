@@ -158,35 +158,33 @@
                                 <a th:href="@{/dashboard}" class="has-arrow"><i class="icon-home"></i> <span>Tableau de Bord</span></a>
                             </li>
                             <li>
-                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Administration</span></a>
+                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Comptes</span></a>
                                 <ul>
-                                    <li><a th:href="@{/addRole}">Ajouter un rôle</a> </li>
-                                    <li><a th:href="@{/roleList}">Liste des rôles </a></li>
-                                </ul>
-                                <ul>
-                                    <li><a th:href="@{/addPrivilege}">Ajouter un privilège</a> </li>
-                                    <li><a th:href="@{/privilegeList}">Liste des privilèges </a></li>
+                                    <li><a th:href="@{/roleList}">Courant</a></li>
+                                    <li><a th:href="@{/addRole}">Epargne</a> </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Gestion des utilisateurs</span></a>
+                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Operation(s)</span></a>
                                 <ul>
-                                    <li><a th:href="@{/addUser}">Ajouter un utilisateur</a> </li>
-                                    <li><a th:href="@{/userList}">Liste des utilisateurs </a></li>
+                                    <li><a th:href="@{/deposit}">Virement</a> </li>
+                                    <li><a th:href="@{/addUser}">Retrait</a> </li>
+                                    <li><a th:href="@{/addUser}">Mouvement entre comptes</a> </li>
+                                    <li><a th:href="@{/userList}">Virement a un bénéficiaire</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Gestion du personnel</span></a>
+                                <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Bénéficiaires</span></a>
                                 <ul>
-                                    <li><a th:href="@{/addEmployee}">Ajouter un  employé</a> </li>
-                                    <li><a th:href="@{/listEmployee}">Liste du personnel </a></li>
+                                    <li><a th:href="@{/recipient}">Ajouter un bénéficiaire</a> </li>
+                                    <li><a th:href="@{/recipientList}">Liste des bénéficiaires </a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#forms" class="has-arrow"><i class="icon-pencil"></i> <span>Consulter le pointage</span></a>
+                                <a href="#forms" class="has-arrow"><i class="icon-pencil"></i> <span>Rendez-vous</span></a>
                                 <ul>
-                                    <li><a th:href="@{/individualScore}">Consultation Individuel</a></li>
-                                    <li><a th:href="@{/collectiveScore}">Consultation Collective</a></li>
+                                    <li><a th:href="@{/individualScore}">Demander un rendez-vous</a></li>
+                                    <li><a th:href="@{/collectiveScore}">Liste des rendez-vous</a></li>
                                 </ul>
                             </li>
                         </ul>

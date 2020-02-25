@@ -2,9 +2,11 @@ package io.yoropapers.ebanque.utility;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Transaction
@@ -17,6 +19,7 @@ public class Transaction implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     
     private String description;
@@ -25,9 +28,23 @@ public class Transaction implements Serializable {
     
     private String status;
     
-    private double amount;
+    private BigDecimal amount;
     
     private BigDecimal availableBalance;
+
+    public Transaction() {
+    }
+
+    public Transaction(Date date, String description, String type, String status, BigDecimal amount, BigDecimal availableBalance) {
+        this.date = date;
+        this.description = description;
+        this.type = type;
+        this.status = status;
+        this.amount = amount;
+        this.availableBalance = availableBalance;
+    }
+
+
 
     public Date getDate() {
         return this.date;
@@ -61,11 +78,11 @@ public class Transaction implements Serializable {
         this.status = status;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return this.amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

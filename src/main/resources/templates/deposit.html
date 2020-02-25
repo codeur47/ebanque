@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-cyan">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Virement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Faire un virement</h2>
+                        </div>
+                        <div class="body">
+                            <form id="basic-form" th:action="@{/deposit}" method="post" >
+                                <div class="form-group col-md-6">
+                                    <label for="accountType">Veuillez sélectionner le compte que vous souhaitez recharger :</label>
+                                    <select class="form-control"
+                                            th:value="${accountType}" name="accountType" id="accountType" required="required">
+                                        <option disabled="disabled" selected="selected"> -- Selectionner un compte -- </option>
+                                        <option>Courant</option>
+                                        <option>Epargne</option>
+                                    </select>
+                                    <br />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="amount">Montant</label>
+                                    <input type="number" class="form-control"  placeholder="Montant"
+                                           id="amount" name="amount" roleId="amount" required>
+                                </div>
+                                <input type="hidden"
+                                       name="${_csrf.parameterName}"
+                                       value="${_csrf.token}"/>
+                                <hr>
+                                <button type="submit" class="btn btn-outline-primary" style="margin-left: 15px;">Enegistrer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/common :: body-bottom-scripts"/>
+</body>
+
+<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
+</html>
