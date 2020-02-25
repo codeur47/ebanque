@@ -5,6 +5,7 @@ import java.security.Principal;
 
 import javax.transaction.Transactional;
 
+import io.yoropapers.ebanque.utility.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

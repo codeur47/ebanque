@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import io.yoropapers.ebanque.service.RecipientService;
 import io.yoropapers.ebanque.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,12 +30,14 @@ public class HomeController {
     private UserService userService;
     private RoleService roleService;
     private TransactionService transactionService;
+    private RecipientService recipientService;
 
     @Autowired
-    public HomeController(UserService userService, RoleService roleService,TransactionService transactionService) {
+    public HomeController(UserService userService, RoleService roleService,TransactionService transactionService,RecipientService recipientService) {
         this.userService = userService;
         this.roleService = roleService;
         this.transactionService = transactionService;
+        this.recipientService = recipientService;
     }
 
     @GetMapping("/")
@@ -78,9 +81,8 @@ public class HomeController {
     @GetMapping("/dashboard")
     public String dashboard(Principal principal, Model model){
         User user = userService.findUserByUsername(principal.getName());
-        model.addAttribute("user", user);
-        model.addAttribute("primaryAccount", user.getPrimaryAccount());
-        model.addAttribute("savingsAccount", user.getSavingsAccount());
+        commonElement(model,principal);
+        model.addAttribute("recipientList", recipientService.findAllByUserUsername(userService.findUserByUsername(principal.getName()).getUsername()));
         model.addAttribute("primaryTransactionList", transactionService.findPrimaryTransactionListByUsername(user.getUsername()).stream()
                                                                     .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
                                                                     .limit(5)
@@ -91,6 +93,39 @@ public class HomeController {
                                                                     .collect(Collectors.toList()));
 
         return "dashboard";
+    }
+
+    @GetMapping("/primaryaccount")
+    public String primaryAccount(Principal principal, Model model){
+        commonElement(model,principal);
+        model.addAttribute("primaryTransactionList", transactionService.findPrimaryTransactionListByUsername(userService.findUserByUsername(principal.getName()).getUsername()).stream()
+                .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
+                .collect(Collectors.toList()));
+
+        return "primaryaccount";
+    }
+
+    @GetMapping("/savingsaccount")
+    public String savingsAccount(Principal principal, Model model){
+        commonElement(model,principal);
+        model.addAttribute("savingsTransactionList", transactionService.findSavingsTransactionListByUsername(userService.findUserByUsername(principal.getName()).getUsername()).stream()
+                .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
+                .collect(Collectors.toList()));
+
+        return "savingsaccount";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model){
+        commonElement(model,principal);
+        return "profile";
+    }
+
+    public void commonElement(Model model, Principal principal){
+        User user = userService.findUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("primaryAccount", user.getPrimaryAccount());
+        model.addAttribute("savingsAccount", user.getSavingsAccount());
     }
 
 

@@ -86,5 +86,15 @@ public class UserServiceImpl implements UserService {
         return userDao.save(user);
     }
 
-    
+    @Override
+    public User findUserByPrimaryAccountAccountNumber(String accountNumber) {
+        return userDao.findUserByPrimaryAccountAccountNumber(accountNumber);
+    }
+
+    @Override
+    public User findUserBySavingsAccountAccountNumber(String accountNumber) {
+        return userDao.findUserBySavingsAccountAccountNumber(accountNumber);
+    }
+
+
 }

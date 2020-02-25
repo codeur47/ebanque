@@ -11,5 +11,6 @@ public interface RecipientService {
     Recipient findRecipientByLastNameAndFirstName(String lastname, String firstname);
     Recipient findRecipientById(Long Id);
     void deleteRecipient(Recipient recipient);
+    Recipient findRecipientByAccountNumber(String accountNumber);
 
 }

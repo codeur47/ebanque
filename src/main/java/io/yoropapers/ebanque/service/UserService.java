@@ -16,5 +16,7 @@ public interface UserService {
     boolean existsUsersByEmail(String email);
     boolean existsUsersByUsernameAndEmail(String username, String email);
     User createUser(User user, Set<UserRole> userRoles);
+    User findUserByPrimaryAccountAccountNumber(String accountNumber);
+    User findUserBySavingsAccountAccountNumber(String accountNumber);
     
 }

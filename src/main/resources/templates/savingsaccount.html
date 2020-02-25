@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-cyan">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Compte Epargne</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2> <img src="images/ecommerce/visa-card.png" class="m-r-5">
+                                COMPTE EPARGNE : N°
+                                <span th:text="${savingsAccount.accountNumber}"></span>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h1><strong>$ <span th:text="${#numbers.formatInteger(savingsAccount.accountBalance,3,'POINT')}"></span></strong></h1>
+                                    <hr>
+                                    <p>Liste des transactions</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="sparkline m-b-20" data-type="bar" data-width="97%" data-height="60px" data-bar-Width="3" data-bar-Spacing="8" data-bar-Color="#00ced1">2,-1,5,6,4,8,7,-5,6,2,3,5,6,2,-3,4,-2</div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th data-breakpoints="sm xs">Type</th>
+                                        <th data-breakpoints="xs">Montant</th>
+                                        <th data-breakpoints="xs md">Solde Disponible</th>
+                                        <th data-breakpoints="xs md">Statut</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-th-each="eachSavingsTransaction : ${savingsTransactionList}">
+                                        <td data-th-text="${#dates.format(eachSavingsTransaction.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                                        <td data-th-text="${eachSavingsTransaction.description}"></td>
+                                        <td data-th-text="${eachSavingsTransaction.type}"></td>
+                                        <td data-th-text="${#numbers.formatInteger(eachSavingsTransaction.amount,3,'POINT')}"></td>
+                                        <td data-th-text="${#numbers.formatInteger(eachSavingsTransaction.availableBalance,3,'POINT')}"></td>
+                                        <th><i class="fa fa-circle text-success"></i></th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <hr>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/common :: body-bottom-scripts"/>
+</body>
+
+<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
+</html>

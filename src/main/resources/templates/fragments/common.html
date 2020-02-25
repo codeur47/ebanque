@@ -28,7 +28,7 @@
             </div>
 
             <div class="navbar-brand">
-                <a href="index-2.html"><img src="images/logo-white.svg" alt="Lucid Logo" class="img-responsive logo"></a>
+                <a th:href="@{/dashboard}"><img src="images/logo-white.svg" alt="Lucid Logo" class="img-responsive logo"></a>
             </div>
 
             <div class="navbar-right">
@@ -125,8 +125,7 @@
                         <strong th:text="${user.lastName} + ' ' + ${user.firstName}"></strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right account">
-                        <li><a href="page-profile2.html"><i class="icon-user"></i>Mon Profile</a></li>
-                        <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Notifications</a></li>
+                        <li><a th:href="@{/profile}"><i class="icon-user"></i>Mon Profile</a></li>
                         <li><a href="javascript:void(0);"><i class="icon-settings"></i>Paramètre du compte</a></li>
                         <li class="divider"></li>
                         <li><a th:href="@{/logout}"><i class="icon-power"></i>Se deconnecter</a></li>
@@ -134,13 +133,13 @@
                 </div>
                 <hr>
                 <ul class="row list-unstyled">
-                    <li class="col-4">
-                        <small>Personnel</small>
-                        <h6>456</h6>
+                    <li class="col-md-12">
+                        <small>Compte Courant</small>
+                        <h6 th:text="${primaryAccount.accountNumber}">...</h6>
                     </li>
-                    <li class="col-4">
-                        <small>Stagiaire</small>
-                        <h6>1350</h6>
+                    <li class="col-md-12 has-arrow">
+                        <small>Compte Epargne</small>
+                        <h6 th:text="${savingsAccount.accountNumber}">...</h6>
                     </li>
                 </ul>
             </div>
@@ -160,17 +159,17 @@
                             <li>
                                 <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Comptes</span></a>
                                 <ul>
-                                    <li><a th:href="@{/roleList}">Courant</a></li>
-                                    <li><a th:href="@{/addRole}">Epargne</a> </li>
+                                    <li><a th:href="@{/primaryaccount}">Courant</a></li>
+                                    <li><a th:href="@{/savingsaccount}">Epargne</a> </li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="" class="has-arrow"><i class="icon-docs"></i> <span>Operation(s)</span></a>
                                 <ul>
                                     <li><a th:href="@{/deposit}">Virement</a> </li>
-                                    <li><a th:href="@{/addUser}">Retrait</a> </li>
-                                    <li><a th:href="@{/addUser}">Mouvement entre comptes</a> </li>
-                                    <li><a th:href="@{/userList}">Virement a un bénéficiaire</a></li>
+                                    <li><a th:href="@{/withdraw}">Retrait</a> </li>
+                                    <li><a th:href="@{/betweenAccounts}">Mouvement entre comptes</a> </li>
+                                    <li><a th:href="@{/toSomeoneElse}">Virement a un bénéficiaire</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -207,6 +206,7 @@
 
     <script src="/bundles/mainscripts.bundle.js"></script>
     <script src="/js/index.js"></script>
+    <script src="/vendor/mymain.js"></script>
 </div>
 
 </body>

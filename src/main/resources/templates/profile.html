@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-cyan">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content" class="profilepage_2 blog-page">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Profil</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item">dashboard</li>
+                            <li class="breadcrumb-item active">profil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+
+                <div class="col-lg-4 col-md-12">
+                    <div class="card profile-header">
+                        <div class="body">
+                            <div class="profile-image"> <img src="images/user.png" class="rounded-circle" alt=""> </div>
+                            <div>
+                                <h4 class="m-b-0"><strong th:text="${user.lastName} + ' ' + ${user.firstName}"></strong></h4>
+                                <span th:text="${user.email}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2> <img src="images/ecommerce/visa-card.png" class="m-r-5">
+                                    COMPTE COURANT : N°
+                                    <span th:text="${primaryAccount.accountNumber}"></span>
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h1><strong>$ <span th:text="${#numbers.formatInteger(primaryAccount.accountBalance,3,'POINT')}"></span></strong></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2> <img src="images/ecommerce/visa-card.png" class="m-r-5">
+                                    COMPTE EPARGNE : N°
+                                    <span th:text="${savingsAccount.accountNumber}"></span>
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h1><strong>$ <span th:text="${#numbers.formatInteger(savingsAccount.accountBalance,3,'POINT')}"></span></strong></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-12">
+
+                    <div class="card">
+                        <div class="body">
+                            <ul class="nav nav-tabs-new">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Overview">Aperçu</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Settings">Paramètres</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tab-content padding-0">
+
+                        <div class="tab-pane active" id="Overview">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>Information</h2>
+                                </div>
+                                <div class="body">
+                                    <small class="text-muted">Addresse: </small>
+                                    <p>795 Folsom Ave, Suite 600 San Francisco, 94107</p>
+                                    <hr>
+                                    <small class="text-muted">Email : </small>
+                                    <p th:text="${user.email}"></p>
+                                    <hr>
+                                    <small class="text-muted">Mobile: </small>
+                                    <p th:text="${user.phone}"></p>
+                                    <hr>
+                                    <small class="text-muted">Birth Date: </small>
+                                    <p class="m-b-0">October 22th, 1990</p>
+                                    <hr>
+                                    <small class="text-muted">Social: </small>
+                                    <p><i class="fa fa-twitter m-r-5"></i> twitter.com/example</p>
+                                    <p><i class="fa fa-facebook  m-r-5"></i> facebook.com/example</p>
+                                    <p><i class="fa fa-github m-r-5"></i> github.com/example</p>
+                                    <p><i class="fa fa-instagram m-r-5"></i> instagram.com/example</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="Settings">
+
+                            <div class="card">
+                                <div class="body">
+                                    <h6>Vos Informations</h6>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="First Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Last Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <div>
+                                                    <label class="fancy-radio">
+                                                        <input name="gender2" value="male" type="radio" checked>
+                                                        <span><i></i>Male</span>
+                                                    </label>
+                                                    <label class="fancy-radio">
+                                                        <input name="gender2" value="female" type="radio">
+                                                        <span><i></i>Female</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-calendar"></i></span>
+                                                    </div>
+                                                    <input data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="Birthdate">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="http://">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Update</button> &nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3 col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Bénéficiaires</h2>
+                        </div>
+                        <div class="body">
+                            <ul class="right_chat list-unstyled">
+                                <li class="online">
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object " src="images/xs/avatar4.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Chris Fox</span>
+                                                <span class="message">Designer, Blogger</span>
+                                                <span class="badge badge-outline status"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="online">
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object " src="images/xs/avatar5.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Joge Lucky</span>
+                                                <span class="message">Java Developer</span>
+                                                <span class="badge badge-outline status"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="offline">
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object " src="images/xs/avatar2.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Isabella</span>
+                                                <span class="message">CEO, Thememakker</span>
+                                                <span class="badge badge-outline status"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="offline">
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object " src="images/xs/avatar1.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Folisise Chosielie</span>
+                                                <span class="message">Art director, Movie Cut</span>
+                                                <span class="badge badge-outline status"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="online">
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object " src="images/xs/avatar3.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Alexander</span>
+                                                <span class="message">Writter, Mag Editor</span>
+                                                <span class="badge badge-outline status"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/common :: body-bottom-scripts"/>
+</body>
+
+<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
+</html>

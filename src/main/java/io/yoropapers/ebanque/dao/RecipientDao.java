@@ -16,5 +16,6 @@ public interface RecipientDao extends JpaRepository<Recipient, Long>{
     List<Recipient> findAllByUserUsername(String username);
     Recipient findRecipientByLastNameAndFirstName(String lastname, String firstname);
     Recipient findRecipientById(Long Id);
+    Recipient findRecipientByAccountNumber(String accountNumber);
 
 }

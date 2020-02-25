@@ -26,16 +26,14 @@ public class RecipientController {
 
     @GetMapping("/recipient")
     public String recipient(Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
-        model.addAttribute("user", user);
+        commonElement(model,principal);
         model.addAttribute("recipient", new Recipient());
         return "addrecipient";
     }
 
     @GetMapping("/recipientList")
     public String recipientList(Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
-        model.addAttribute("user", user);
+        commonElement(model,principal);
         model.addAttribute("recipientList", recipientService.findAllByUserUsername(userService.findUserByUsername(principal.getName()).getUsername()));
         return "recipientList";
     }
@@ -52,8 +50,7 @@ public class RecipientController {
     @GetMapping("/editRecipient")
     public String recipientEdit(@RequestParam("recipientId") Long recipientId,
                                 Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
-        model.addAttribute("user", user);
+        commonElement(model, principal);
         model.addAttribute("recipientList", recipientService.findAllByUserUsername(userService.findUserByUsername(principal.getName()).getUsername()));
         model.addAttribute("recipient", recipientService.findRecipientById(recipientId));
         return "addrecipient";
@@ -68,6 +65,13 @@ public class RecipientController {
         model.addAttribute("recipientList", recipientService.findAllByUserUsername(userService.findUserByUsername(principal.getName()).getUsername()));
         model.addAttribute("recipient", new Recipient());
         return "redirect:/recipientList";
+    }
+
+    public void commonElement(Model model, Principal principal){
+        User user = userService.findUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("primaryAccount", user.getPrimaryAccount());
+        model.addAttribute("savingsAccount", user.getSavingsAccount());
     }
 
 

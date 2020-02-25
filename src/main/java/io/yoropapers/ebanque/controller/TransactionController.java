@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class TransactionController {
@@ -31,7 +33,8 @@ public class TransactionController {
     }
 
     @GetMapping("/betweenAccounts")
-    public String betweenAccounts(Model model) {
+    public String betweenAccounts(Model model, Principal principal) {
+        commonElement(model,principal);
         model.addAttribute("transferFrom", "");
         model.addAttribute("transferTo", "");
         model.addAttribute("amount", "");
@@ -51,32 +54,33 @@ public class TransactionController {
 
     @GetMapping("/toSomeoneElse")
     public String toSomeoneElse(Model model, Principal principal) {
+        commonElement(model,principal);
         model.addAttribute("recipientList", recipientService.findAllByUserUsername(userService.findUserByUsername(principal.getName()).getUsername()));
         model.addAttribute("accountType", "");
         return "toSomeoneElse";
     }
 
     @PostMapping("/toSomeoneElse")
-    public String toSomeoneElse(@ModelAttribute("recipientLastName") String recipientLastName,
-                                @ModelAttribute("recipientFirstName") String recipientFirstName,
+    public String toSomeoneElse(@ModelAttribute("recipientFullNameWithAcountNumber") String recipientFullNameWithAcountNumber,
                                 Principal principal,@ModelAttribute("amount") String amount,
                                 @ModelAttribute("accountType") String accountType) {
-        transactionService.toSomeoneElseTransfer(recipientService.findRecipientByLastNameAndFirstName(recipientLastName,recipientFirstName),accountType,new BigDecimal(amount),
+        List<String> recipientFullNameWithAcountNumberList = Arrays.asList(recipientFullNameWithAcountNumber.split(" "));
+        transactionService.toSomeoneElseTransfer(recipientService.findRecipientByAccountNumber(recipientFullNameWithAcountNumberList.get(0)),accountType,new BigDecimal(amount),
                 userService.findUserByUsername(principal.getName()).getPrimaryAccount(),userService.findUserByUsername(principal.getName()).getSavingsAccount());
         return "redirect:/dashboard";
     }
 
     @GetMapping("/deposit")
     public String deposit(Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
-        model.addAttribute("user", user);
+        commonElement(model,principal);
         model.addAttribute("accountType", "");
         model.addAttribute("amount", "");
         return "deposit";
     }
 
     @GetMapping("/withdraw")
-    public String withdraw(Model model) {
+    public String withdraw(Model model,  Principal principal) {
+        commonElement(model,principal);
         model.addAttribute("accountType", "");
         model.addAttribute("amount", "");
         return "withdraw";
@@ -94,5 +98,12 @@ public class TransactionController {
                                @ModelAttribute("accountType") String accountType, Principal principal) {
         transactionService.withdraw(accountType, new BigDecimal(amount),principal);
         return "redirect:/dashboard";
+    }
+
+    public void commonElement(Model model, Principal principal){
+        User user = userService.findUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("primaryAccount", user.getPrimaryAccount());
+        model.addAttribute("savingsAccount", user.getSavingsAccount());
     }
 }

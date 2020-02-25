@@ -46,4 +46,9 @@ public class RecipientServiceImpl implements RecipientService {
 
     @Override
     public void deleteRecipient(Recipient recipient) { recipientDao.delete(recipient);}
+
+    @Override
+    public Recipient findRecipientByAccountNumber(String accountNumber) {
+        return recipientDao.findRecipientByAccountNumber(accountNumber);
+    }
 }

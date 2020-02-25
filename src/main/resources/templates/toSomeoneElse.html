@@ -27,7 +27,7 @@
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
-                            <li class="breadcrumb-item active">Faire un virement</li>
+                            <li class="breadcrumb-item active">Virement a un Bénéficiaire</li>
                         </ul>
                     </div>
                 </div>
@@ -37,17 +37,26 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Virement</h2>
+                            <h2>Faire un virement a un bénéficiaire</h2>
                         </div>
                         <div class="body">
-                            <form id="basic-form" th:action="@{/deposit}" method="post" >
+                            <form id="basic-form" th:action="@{/toSomeoneElse}" method="post" >
                                 <div class="form-group col-md-6">
-                                    <label for="accountType">Veuillez sélectionner le compte que vous souhaitez recharger :</label>
+                                    <label for="accountType">Veuillez sélectionner le compte duquel vous souhaitez retirer :</label>
                                     <select class="form-control"
                                             th:value="${accountType}" name="accountType" id="accountType" required="required">
                                         <option disabled="disabled" selected="selected"> -- Selectionner un compte -- </option>
                                         <option>Courant</option>
                                         <option>Epargne</option>
+                                    </select>
+                                    <br />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="recipientFullNameWithAcountNumber">Veuillez sélectionner le bénéficiaire :</label>
+                                    <select class="form-control"
+                                            th:value="${recipientFullNameWithAcountNumber}" name="recipientFullNameWithAcountNumber" id="recipientFullNameWithAcountNumber" required="required">
+                                        <option disabled="disabled" selected="selected"> -- selectionner le bénéficiaire -- </option>
+                                        <option data-th-each="eachRecipient : ${recipientList}" data-th-text="${eachRecipient.accountNumber} + ' '+ ${eachRecipient.lastName} + ' ' +${eachRecipient.firstName}"></option>
                                     </select>
                                     <br />
                                 </div>

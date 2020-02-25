@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void betweenAccountsTransfer(String transferFrom, String transferTo, BigDecimal amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception {
-        if (transferFrom.equalsIgnoreCase("Primary") && transferTo.equalsIgnoreCase("Savings")) {
+        if (transferFrom.equalsIgnoreCase("Courant") && transferTo.equalsIgnoreCase("Epargne")) {
             primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(amount));
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(amount));
             primaryAccountDao.save(primaryAccount);
@@ -50,7 +50,10 @@ public class TransactionServiceImpl implements TransactionService {
             PrimaryTransaction primaryTransaction = new PrimaryTransaction(new Date(),"Virement du compte " + transferFrom + " au compte " + transferTo, "Virement",
                     "Terminé",amount, primaryAccount.getAccountBalance(), primaryAccount);
             primaryTransactionDao.save(primaryTransaction);
-        } else if (transferFrom.equalsIgnoreCase("Savings") && transferTo.equalsIgnoreCase("Primary")) {
+            SavingsTransaction savingsTransaction = new SavingsTransaction(new Date(),"Virement sur le compte " + transferTo + " du compte " + transferFrom, "Virement",
+                    "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
+            savingsTransactionDao.save(savingsTransaction);
+        } else if (transferFrom.equalsIgnoreCase("Epargne") && transferTo.equalsIgnoreCase("Courant")) {
             primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(amount));
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(amount));
             primaryAccountDao.save(primaryAccount);
@@ -58,6 +61,9 @@ public class TransactionServiceImpl implements TransactionService {
             SavingsTransaction savingsTransaction = new SavingsTransaction(new Date(),"Virement du compte " + transferFrom + " au compte " + transferTo, "Virement",
                     "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
             savingsTransactionDao.save(savingsTransaction);
+            PrimaryTransaction primaryTransaction = new PrimaryTransaction(new Date(),"Virement sur le compte " + transferTo + " du compte " + transferFrom, "Virement",
+                    "Terminé",amount, primaryAccount.getAccountBalance(), primaryAccount);
+            primaryTransactionDao.save(primaryTransaction);
         } else throw new Exception("Virement invalide");
     }
 
@@ -67,16 +73,30 @@ public class TransactionServiceImpl implements TransactionService {
             primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(amount));
             primaryAccountDao.save(primaryAccount);
             PrimaryTransaction primaryTransaction = new PrimaryTransaction(new Date(),
-                    "Virement du compte " + accountType + " au compte de " + recipient.getAccountNumber(), "Virement", "Terminé",
+                    "Virement du compte " + accountType + " au compte N° " + recipient.getAccountNumber()+" de "+recipient.getLastName()+" "+recipient.getFirstName(), "Virement", "Terminé",
                     amount, primaryAccount.getAccountBalance(), primaryAccount);
             primaryTransactionDao.save(primaryTransaction);
+            PrimaryAccount recipientprimaryAccount = primaryAccountDao.findPrimaryAccountByAccountNumber(recipient.getAccountNumber());
+            recipientprimaryAccount.setAccountBalance(recipientprimaryAccount.getAccountBalance().add(amount));
+            primaryAccountDao.save(recipientprimaryAccount);
+            PrimaryTransaction recipientPrimaryTransaction = new PrimaryTransaction(new Date(),
+                    "Virement reçu de la part de " + userService.findUserByPrimaryAccountAccountNumber(primaryAccount.getAccountNumber()).getLastName()+" "+userService.findUserByPrimaryAccountAccountNumber(primaryAccount.getAccountNumber()).getFirstName() , "Virement", "Terminé",
+                    amount, recipientprimaryAccount.getAccountBalance(), recipientprimaryAccount);
+            primaryTransactionDao.save(recipientPrimaryTransaction);
         } else if (accountType.equalsIgnoreCase("Epargne")) {
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(amount));
             savingsAccountDao.save(savingsAccount);
             SavingsTransaction savingsTransaction = new SavingsTransaction(new Date(),
-                    "Virement du compte " + accountType + " au compte de " + recipient.getAccountNumber(), "Virement", "Terminé",
+                    "Virement du compte " + accountType + " au compte N° " + recipient.getAccountNumber()+" de "+recipient.getLastName()+" "+recipient.getFirstName(), "Virement", "Terminé",
                     amount, savingsAccount.getAccountBalance(), savingsAccount);
             savingsTransactionDao.save(savingsTransaction);
+            PrimaryAccount recipientprimaryAccount = primaryAccountDao.findPrimaryAccountByAccountNumber(recipient.getAccountNumber());
+            recipientprimaryAccount.setAccountBalance(recipientprimaryAccount.getAccountBalance().add(amount));
+            primaryAccountDao.save(recipientprimaryAccount);
+            PrimaryTransaction recipientPrimaryTransaction = new PrimaryTransaction(new Date(),
+                    "Virement reçu de la part de " + userService.findUserBySavingsAccountAccountNumber(savingsAccount.getAccountNumber()).getLastName()+" "+userService.findUserByPrimaryAccountAccountNumber(primaryAccount.getAccountNumber()).getFirstName() , "Virement", "Terminé",
+                    amount, recipientprimaryAccount.getAccountBalance(), recipientprimaryAccount);
+            primaryTransactionDao.save(recipientPrimaryTransaction);
         }
     }
 
@@ -108,14 +128,14 @@ public class TransactionServiceImpl implements TransactionService {
             primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(amount));
             primaryAccountDao.save(primaryAccount);
             Date date = new Date();
-            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Retrait du compte courant", "Retrait", "Terminé", amount, primaryAccount.getAccountBalance(), primaryAccount);
+            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Retrait du compte Courant", "Retrait", "Terminé", amount, primaryAccount.getAccountBalance(), primaryAccount);
             primaryTransactionDao.save(primaryTransaction);
         } else if(accountType.equalsIgnoreCase("Epargne")){
             SavingsAccount savingsAccount = user.getSavingsAccount();
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(amount));
             savingsAccountDao.save(savingsAccount);
             Date date = new Date();
-            SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Retrait du compte epargne", "Retrait", "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
+            SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Retrait du compte Epargne", "Retrait", "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
             savingsTransactionDao.save(savingsTransaction);
         }
     }
