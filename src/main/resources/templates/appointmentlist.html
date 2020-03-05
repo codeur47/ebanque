@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: common-header"/>
+<body class="theme-blue">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"></div>
+        <p>Veuillez patienter...</p>
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <div th:replace="fragments/common :: navbar"/>
+
+    <div th:replace="fragments/common :: sidebar"/>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Tableau de Bord</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/dashboard}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Liste des rendez-vous</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Liste des rendez-vous</h2>
+                            <ul class="header-dropdown">
+                                <li class="dropdown">
+                                    <button type="button" class="btn btn-outline-primary"
+                                            data-toggle="modal" data-target="#exampleModalCenter">
+                                        <i class="fa fa-plus-circle" style="color: #0c8ec3"></i> Faire une demande
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="body">
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-default btn-filter" data-target="all">Toutes</button>
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-success btn-filter" data-target="approved">Approuvées</button>
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-warning btn-filter" data-target="suspended">En attentes</button>
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-danger btn-filter" data-target="blocked">Rejetées</button>
+                            <div class="table-responsive m-t-20">
+                                <table class="table table-filter table-hover m-b-0">
+                                    <tbody>
+                                    <tr th:attr="data-status=${eachappointment.status}" th:each="eachappointment : ${appointmentlist}">
+                                        <td th:text="${#dates.format(eachappointment.dateCreation, 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${eachappointment.description}"
+                                            th:attr="id=description+'_'+${eachappointment.id}"></td>
+                                        <td th:text="${#dates.format(eachappointment.date, 'dd-MM-yyyy')}"
+                                            th:attr="id=date+'_'+${eachappointment.id}"></td>
+                                        <td th:text="${eachappointment.timeAppointement}"
+                                            th:attr="id=timeAppointment+'_'+${eachappointment.id}"></td>
+                                        <td th:text="${eachappointment.location}"
+                                            th:attr="id=location+'_'+${eachappointment.id}"></td>
+                                        <td width="250px" th:if="${eachappointment.status == 'approved'}">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
+                                            </div>
+                                        </td>
+                                        <td width="250px" th:if="${eachappointment.status == 'pending'}">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar l-khaki" role="progressbar" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100" style="width:32%;"></div>
+                                            </div>
+                                        </td>
+                                        <td width="250px" th:if="${eachappointment.status == 'blocked'}">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar l-coral" role="progressbar" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100" style="width: 16%;"></div>
+                                            </div>
+                                        </td>
+                                        <td th:if="${eachappointment.status == 'approved'}"><span class="badge badge-success">Approuvées</span></td>
+                                        <td th:if="${eachappointment.status == 'pending'}"><span class="badge badge-warning">En attente</span></td>
+                                        <td th:if="${eachappointment.status == 'blocked'}"><span class="badge badge-danger">Rejetées</span></td>
+                                        <td th:if="${eachappointment.status == 'pending'}">
+                                            <a th:href="@{/editAppointment?appointmentId=}+${eachappointment.id}"
+                                               data-placement="bottom" title="Modifier" class="btn btn-outline-secondary btn-update"
+                                               data-toggle="modal" data-target="#exampleModalCenter"
+                                               th:attr="id=${eachappointment.id}">
+                                                <i class="icon-pencil"></i>
+                                            </a>
+                                            <a th:href="@{deleteAppointment/(appointmentId=${eachappointment.id})}"
+                                               data-placement="top" title="Supprimer" class="btn btn-outline-danger btn-delete"
+                                               data-toggle="modal" data-target="#confirmRemoveAppointment">
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal animated faster zoomIn" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                <div class="header">
+                                    <h2>Ajouter un rendez-vous</h2>
+                                </div>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="body ">
+                                            <form id="appointmentForm" th:action="@{/createappointment}" method="post" >
+                                                <input type="hidden" name="id" th:value="${appointment.id}"/>
+                                                <div class="form-group col-md-12">
+                                                    <label for="dateString">Date du Rendez-vous</label>
+                                                    <div class="input-group mb-12">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                        <input type="String" class="form-control datetime" placeholder="jj/MM/aaaa"
+                                                               th:value="${dateString}" name="dateString" id="dateString">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="timeString">Heure du Rendez-vous</label>
+                                                    <div class="input-group mb-12">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fa fa-calendar-times-o"></i></span>
+                                                        </div>
+                                                        <input type="String" class="form-control datetime" placeholder="hh:mm"
+                                                               th:value="${timeString}" name="timeString" id="timeString">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-12">
+                                                    <label for="location">Veuillez sélectionner un lieu :</label>
+                                                    <select class="form-control"
+                                                            th:value="${appointment.location}" name="location" id="location" required="required">
+                                                        <option disabled="disabled" selected="selected"> -- Selectionner un endroit -- </option>
+                                                        <option>Plateau</option>
+                                                        <option>Cocody</option>
+                                                        <option>Marcory</option>
+                                                        <option>Angre</option>
+                                                    </select>
+                                                    <br />
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="description">Description</label>
+                                                    <textarea class="form-control" name="description" id="description" rows="5"
+                                                              placeholder="Précisez la raison du rendez-vous"
+                                                              th:value="${appointment.description}" th:text="${appointment.description}" cols="30" required></textarea>
+                                                </div>
+                                                <input type="hidden"
+                                                       name="${_csrf.parameterName}"
+                                                       value="${_csrf.token}"/>
+                                                <hr>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-primary js-sweetalert" style="margin-left: 15px;" data-type="cancel">Enegistrer</button>
+                            <button class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="confirmRemoveAppointment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                <i class="fa fa-warning"></i> Souhaitez-vous vraiment supprimer ce rendez-vous ?
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="" id="deleteBtn">
+                                <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                            </a>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/common :: body-bottom-scripts"/>
+<script>
+    $(document).ready(function () {
+        $('.star').on('click', function () {
+            $(this).toggleClass('star-checked');
+        });
+
+        $('.ckbox label').on('click', function () {
+            $(this).parents('tr').toggleClass('selected');
+        });
+
+        $('.btn-filter').on('click', function () {
+            var $target = $(this).data('target');
+            if ($target != 'all') {
+                $('.table tr').css('display', 'none');
+                $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
+            } else {
+                $('.table tr').css('display', 'none').fadeIn('slow');
+            }
+        });
+
+        $('.table .btn-delete').on('click', function(event) {
+            event.preventDefault();
+            $('#confirmRemoveAppointment #deleteBtn').attr('href', $(this).attr('href'));
+            $('#confirmRemoveAppointment').modal();
+        });
+
+        $('.table .btn-update').on('click', function(event) {
+            event.preventDefault();
+            var id = $(this).attr('id');
+            $('#dateString').val($('#date_'+id).text());
+            $('#description').val($('#description_'+id).text());
+            $('#timeString').val($('#timeAppointment_'+id).text());
+            $('#location').val($('#location_'+id).text());
+        });
+    });
+</script>
+</body>
+
+</html>

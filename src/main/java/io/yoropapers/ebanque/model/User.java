@@ -1,9 +1,6 @@
 package io.yoropapers.ebanque.model;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,6 +50,10 @@ public class User extends AuditModel implements UserDetails {
     @Column(nullable = false, unique = true)
     private String phone;
 
+    private String address;
+
+    private Date dateOfBirth;
+
     private boolean enabled = true;
 
     private boolean isAccountNonExpired = true;
@@ -77,7 +78,11 @@ public class User extends AuditModel implements UserDetails {
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Reminder> reminderList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MyTasks> myTasksList;
 
     public User() {
     }
@@ -294,6 +299,34 @@ public class User extends AuditModel implements UserDetails {
     public User userRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
         return this;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
+    }
+
+    public List<Reminder> getReminderList() {
+        return reminderList;
+    }
+
+    public void setReminderList(List<Reminder> reminderList) {
+        this.reminderList = reminderList;
+    }
+
+    public List<MyTasks> getMyTasksList() {
+        return myTasksList;
+    }
+
+    public void setMyTasksList(List<MyTasks> myTasksList) {
+        this.myTasksList = myTasksList;
     }
 
     @Override

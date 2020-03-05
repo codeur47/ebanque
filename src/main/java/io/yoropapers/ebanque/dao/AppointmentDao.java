@@ -12,5 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AppointmentDao extends JpaRepository<Appointment, Long> {
-    List<Appointment> findAll();     
+    List<Appointment> findAll();
+    List<Appointment> findAllByUserUsername(String username);
 }

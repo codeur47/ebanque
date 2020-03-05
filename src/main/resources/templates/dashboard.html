@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/common :: common-header"/>
-<body class="theme-cyan">
+<body class="theme-blue">
 
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
@@ -11,7 +11,6 @@
     </div>
 </div>
 <!-- Overlay For Sidebars -->
-
 <div id="wrapper">
 
     <div th:replace="fragments/common :: navbar"/>
@@ -36,7 +35,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2> <img src="images/ecommerce/visa-card.png" class="m-r-5"> 
+                            <h2 class="animated zoomIn"> <img src="images/ecommerce/visa-card.png" class="m-r-5">
                                 COMPTE COURANT : N° 
                                 <span th:text="${primaryAccount.accountNumber}"></span>
                             </h2>
@@ -80,7 +79,7 @@
                                         <td data-th-text="${eachPrimaryTransaction.type}"></td>
                                         <td data-th-text="${#numbers.formatInteger(eachPrimaryTransaction.amount,3,'POINT')}"></td>
                                         <td data-th-text="${#numbers.formatInteger(eachPrimaryTransaction.availableBalance,3,'POINT')}"></td>
-                                        <th><i class="fa fa-circle text-success"></i></th>
+                                        <th><i class="fa fa-circle text-success animated infinite slower flash"></i></th>
                                     </tr>
                                 </table>
                             </div>
@@ -282,12 +281,14 @@
                         <div class="header">
                         </div>
                         <div class="body text-center">
-                            <h6 class="m-b-20">
-                                <h1><a href="" class="fa fa-shopping-cart"></a></h1>
-                            </h6>
-                            <h4 class="margin-0">Ajouter un rendez-vous</h4>
-                            <h6 class="p-b-15"></h6>
-                            <h6></h6>
+                            <a  onclick="retrieveAppointment()">
+                                <h6 class="m-b-20">
+                                    <h1><a href="" class="fa fa-shopping-cart"></a></h1>
+                                </h6>
+                                <h4 class="margin-0">Ajouter un rendez-vous</h4>
+                                <h6 class="p-b-15"></h6>
+                                <h6></h6>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -350,68 +351,11 @@
                             <h2>Vos dernières activités sur la plateforme</h2>
                         </div>
                         <div class="body">
-                            <div class="timeline-item green" date-is="20-04-2018 - Today">
-                                <h5>Hello, 'Im a single div responsive timeline without media Queries!</h5>
-                                <span><a href="javascript:void(0);">Elisse Joson</a> San Francisco, CA</span>
+                            <div th:each="mytask : ${mytaskList}" class="timeline-item blue">
+                                <span th:text="${#dates.format(mytask.date, 'dd-MM-yyyy HH:mm:ss')}"></span>
+                                <h5 th:text="${mytask.title}"></h5>
                                 <div class="msg">
-                                    <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web card she has is the Lorem card.</p>
-                                    <a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
-                                    <a role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="icon-bubbles"></i> Comment</a>
-                                    <div class="collapse m-t-10" id="collapseExample">
-                                        <div class="well">
-                                            <form>
-                                                <div class="form-group">
-                                                    <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                </div>
-                                                <button class="btn btn-primary">Submit</button>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="timeline-item blue" date-is="19-04-2018 - Yesterday">
-                                <h5>Oeehhh, that's awesome.. Me too!</h5>
-                                <span><a href="javascript:void(0);" title="">Katherine Lumaad</a> Oakland, CA</span>
-                                <div class="msg">
-                                    <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. on the web by far... While that's mock-ups and this is politics, are they really so different? I think the only card she has is the Lorem card.</p>
-                                    <div class="timeline_img m-b-20">
-                                        <img class="w-25" src="images/blog/blog-page-4.jpg" alt="Awesome Image">
-                                        <img class="w-25" src="images/blog/blog-page-2.jpg" alt="Awesome Image">
-                                    </div>
-                                    <a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
-                                    <a role="button" data-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1"><i class="icon-bubbles"></i> Comment</a>
-                                    <div class="collapse m-t-10" id="collapseExample1">
-                                        <div class="well">
-                                            <form>
-                                                <div class="form-group">
-                                                    <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                </div>
-                                                <button class="btn btn-primary">Submit</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-item warning" date-is="21-02-2018">
-                                <h5>An Engineer Explains Why You Should Always Order the Larger Pizza</h5>
-                                <span><a href="javascript:void(0);" title="">Gary Camara</a> San Francisco, CA</span>
-                                <div class="msg">
-                                    <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web by far... While that's mock-ups and this is politics, is the Lorem card.</p>
-                                    <a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
-                                    <a role="button" data-toggle="collapse" href="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2"><i class="icon-bubbles"></i> Comment</a>
-                                    <div class="collapse m-t-10" id="collapseExample2">
-                                        <div class="well">
-                                            <form>
-                                                <div class="form-group">
-                                                    <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                </div>
-                                                <button class="btn btn-primary">Submit</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <p th:text="${mytask.description}"></p>
                                 </div>
                             </div>
                         </div>
@@ -424,6 +368,4 @@
 </div>
     <div th:replace="fragments/common :: body-bottom-scripts"/>
 </body>
-
-<!-- Mirrored from www.wrraptheme.com/templates/lucid/html/light/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Jun 2019 10:20:08 GMT -->
 </html>

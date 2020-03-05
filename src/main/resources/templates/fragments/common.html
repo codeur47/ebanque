@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="/vendor/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
     <link rel="stylesheet" href="/vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="vendor/sweetalert/sweetalert.css">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/color_skins.css">
+    <link rel="stylesheet" href="/css/animate.css">
 </head>
-<body>
+<body class="theme-blush">
 <!-- Navigation -->
 <div th:fragment="navbar">
     <nav class="navbar navbar-fixed-top">
@@ -119,7 +121,7 @@
         <div class="sidebar-scroll">
             <div class="user-account">
                 <img src="images/user.png" class="rounded-circle user-photo" alt="User Profile Picture">
-                <div class="dropdown">
+                <div class="dropdown" style="width: 100%">
                     <span>Bienvenue,</span>
                     <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown">
                         <strong th:text="${user.lastName} + ' ' + ${user.firstName}"></strong>
@@ -182,7 +184,7 @@
                             <li>
                                 <a href="#forms" class="has-arrow"><i class="icon-pencil"></i> <span>Rendez-vous</span></a>
                                 <ul>
-                                    <li><a th:href="@{/individualScore}">Demander un rendez-vous</a></li>
+                                    <li><a th:href="@{/appointmentlist}">Demander un rendez-vous</a></li>
                                     <li><a th:href="@{/collectiveScore}">Liste des rendez-vous</a></li>
                                 </ul>
                             </li>
@@ -197,6 +199,7 @@
 
 <div th:fragment="body-bottom-scripts">
     <!-- Javascript -->
+    <script src="js/jquery-3.4.1.min.js"></script>
     <script src="/bundles/libscripts.bundle.js"></script>
     <script src="/bundles/vendorscripts.bundle.js"></script>
 
@@ -206,6 +209,8 @@
 
     <script src="/bundles/mainscripts.bundle.js"></script>
     <script src="/js/index.js"></script>
+    <script src="vendor/sweetalert/sweetalert.min.js"></script>
+    <script src="/js/dialogs.js"></script>
     <script src="/vendor/mymain.js"></script>
 </div>
 

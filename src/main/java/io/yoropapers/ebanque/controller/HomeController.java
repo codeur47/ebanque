@@ -7,8 +7,7 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import io.yoropapers.ebanque.service.RecipientService;
-import io.yoropapers.ebanque.service.TransactionService;
+import io.yoropapers.ebanque.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import io.yoropapers.ebanque.model.User;
 import io.yoropapers.ebanque.model.UserRole;
-import io.yoropapers.ebanque.service.RoleService;
-import io.yoropapers.ebanque.service.UserService;
 
 /**
  * HomeController
@@ -31,13 +28,16 @@ public class HomeController {
     private RoleService roleService;
     private TransactionService transactionService;
     private RecipientService recipientService;
+    private MyTasksService myTasksService;
 
     @Autowired
-    public HomeController(UserService userService, RoleService roleService,TransactionService transactionService,RecipientService recipientService) {
+    public HomeController(UserService userService, RoleService roleService,TransactionService transactionService,
+                          RecipientService recipientService,MyTasksService myTasksService) {
         this.userService = userService;
         this.roleService = roleService;
         this.transactionService = transactionService;
         this.recipientService = recipientService;
+        this.myTasksService = myTasksService;
     }
 
     @GetMapping("/")
@@ -91,6 +91,7 @@ public class HomeController {
                                                                     .sorted((pt1, pt2)-> pt2.getDate().compareTo(pt1.getDate()))
                                                                     .limit(5)
                                                                     .collect(Collectors.toList()));
+        model.addAttribute("mytaskList", myTasksService.findAllByUserUsernameOrderByDateAsc(userService.findUserByUsername(principal.getName()).getUsername()));
 
         return "dashboard";
     }
@@ -121,12 +122,19 @@ public class HomeController {
         return "profile";
     }
 
+    @GetMapping("/password")
+    public String password(){
+        return "page-forgot-password";
+    }
+
     public void commonElement(Model model, Principal principal){
         User user = userService.findUserByUsername(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("primaryAccount", user.getPrimaryAccount());
         model.addAttribute("savingsAccount", user.getSavingsAccount());
     }
+
+
 
 
 }

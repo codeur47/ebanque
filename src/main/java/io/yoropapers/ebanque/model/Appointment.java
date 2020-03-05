@@ -1,6 +1,7 @@
 package io.yoropapers.ebanque.model;
 
-import java.sql.Date;
+import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +19,14 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
+    private Date dateCreation;
+    private String timeAppointement;
     private Date date;
     private String location;
     private String description;
     private boolean confirmed;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "userid")
@@ -39,6 +43,36 @@ public class Appointment {
         this.description = description;
         this.confirmed = confirmed;
         this.user = user;
+    }
+
+    public Appointment(Long id, Date date, String location, String description, String status, User user) {
+        this.id = id;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.status = status;
+        this.user = user;
+    }
+
+    public Appointment(Long id, Date date, String location, String description, String status, User user, Date dateCreation) {
+        this.id = id;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.status = status;
+        this.user = user;
+        this.dateCreation = dateCreation;
+    }
+
+    public Appointment(Long id, Date date, String location, String description, String status, User user, Date dateCreation, String timeAppointement) {
+        this.id = id;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.status = status;
+        this.user = user;
+        this.dateCreation = dateCreation;
+        this.timeAppointement = timeAppointement;
     }
 
     public Long getId() {
@@ -121,6 +155,30 @@ public class Appointment {
     public Appointment user(User user) {
         this.user = user;
         return this;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public String getTimeAppointement() {
+        return timeAppointement;
+    }
+
+    public void setTimeAppointement(String timeAppointement) {
+        this.timeAppointement = timeAppointement;
     }
 
     @Override

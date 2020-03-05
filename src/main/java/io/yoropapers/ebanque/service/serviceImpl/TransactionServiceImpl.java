@@ -2,6 +2,7 @@ package io.yoropapers.ebanque.service.serviceImpl;
 
 import io.yoropapers.ebanque.dao.*;
 import io.yoropapers.ebanque.model.*;
+import io.yoropapers.ebanque.service.MyTasksService;
 import io.yoropapers.ebanque.service.TransactionService;
 import io.yoropapers.ebanque.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,17 @@ public class TransactionServiceImpl implements TransactionService {
     private SavingsTransactionDao savingsTransactionDao;
     private PrimaryAccountDao primaryAccountDao;
     private SavingsAccountDao savingsAccountDao;
+    private MyTasksService myTasksService;
 
     @Autowired
-    public TransactionServiceImpl(@Lazy UserService userService, PrimaryTransactionDao primaryTransactionDao, SavingsTransactionDao savingsTransactionDao, PrimaryAccountDao primaryAccountDao, SavingsAccountDao savingsAccountDao) {
+    public TransactionServiceImpl(@Lazy UserService userService, PrimaryTransactionDao primaryTransactionDao, SavingsTransactionDao savingsTransactionDao,
+                                  PrimaryAccountDao primaryAccountDao, SavingsAccountDao savingsAccountDao, MyTasksService myTasksService) {
         this.userService = userService;
         this.primaryTransactionDao = primaryTransactionDao;
         this.savingsTransactionDao = savingsTransactionDao;
         this.primaryAccountDao = primaryAccountDao;
         this.savingsAccountDao = savingsAccountDao;
+        this.myTasksService = myTasksService;
     }
 
     @Override
@@ -107,16 +111,16 @@ public class TransactionServiceImpl implements TransactionService {
             PrimaryAccount primaryAccount = user.getPrimaryAccount();
             primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(amount));
             primaryAccountDao.save(primaryAccount);
-            Date date = new Date();
-            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Virement sur le compte Courant", "Virement", "Terminé", amount, primaryAccount.getAccountBalance(), primaryAccount);
+            PrimaryTransaction primaryTransaction = new PrimaryTransaction(new Date(), "Virement sur le compte Courant", "Virement", "Terminé", amount, primaryAccount.getAccountBalance(), primaryAccount);
             primaryTransactionDao.save(primaryTransaction);
+            myTasksService.saveMyTask(new MyTasks(new Date(), "Virement sur compte Courant","Vous avez fait un virement de "+amount+" sur votre compte Courant.",user));
         } else if(accountType.equalsIgnoreCase("Epargne")){
             SavingsAccount savingsAccount = user.getSavingsAccount();
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(amount));
             savingsAccountDao.save(savingsAccount);
-            Date date = new Date();
-            SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Virement sur le compte Epargne", "Virement", "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
+            SavingsTransaction savingsTransaction = new SavingsTransaction(new Date(), "Virement sur le compte Epargne", "Virement", "Terminé", amount, savingsAccount.getAccountBalance(), savingsAccount);
             savingsTransactionDao.save(savingsTransaction);
+            myTasksService.saveMyTask(new MyTasks(new Date(), "Virement sur compte Epargne","Vous avez fait un virement de "+amount+" sur votre compte Epargne.",user));
         }
     }
 

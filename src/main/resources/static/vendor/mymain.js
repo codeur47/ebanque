@@ -1,7 +1,6 @@
 /**
  * Created by z00382545 on 10/20/16.
  */
-
 (function ($) {
     $.toggleShowPassword = function (options) {
         var settings = $.extend({

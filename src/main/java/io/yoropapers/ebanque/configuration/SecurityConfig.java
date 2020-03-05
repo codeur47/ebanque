@@ -22,8 +22,6 @@ import io.yoropapers.ebanque.service.serviceImpl.UserSecurityServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     private static final String SALT = "salt";
-    
-
     private UserSecurityServiceImpl userSecurityServiceImpl;
 
     @Autowired
@@ -46,19 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         "/vendor/**",
         "/",
         "/login",
-        "/page-forgot-password",
+        "/password",
         "/page-register"
-    };
-
-    private static final String[] SECURE_URLS = {
-        "/dashboard/**",
-        "/page-lockscreen/**",
-        "/addUser/**",
-        "/userList/**",
-        "/addEmployee/**",
-        "/listEmployee/**",
-        "/collectiveScore/**",
-        "/individualScore/**",
     };
 
     @Override

@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import java.util.Date;
 
+import io.yoropapers.ebanque.model.MyTasks;
+import io.yoropapers.ebanque.service.MyTasksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,17 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
     private RoleDao roleDao;
     private BCryptPasswordEncoder bCryptPasswordEncoder; 
-    private AccountService accountService; 
+    private AccountService accountService;
+    private MyTasksService myTasksService;
 
     @Autowired
     public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder, RoleDao roleDao, 
-                          @Lazy AccountService accountService) {
+                          @Lazy AccountService accountService, MyTasksService myTasksService) {
         this.userDao = userDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleDao = roleDao;
         this.accountService = accountService;
+        this.myTasksService = myTasksService;
     }
 
 
@@ -83,7 +87,9 @@ public class UserServiceImpl implements UserService {
            user.setPrimaryAccount(accountService.createPrimaryAccount(user));
            user.setSavingsAccount(accountService.createSavingsAccount(user));
         }
-        return userDao.save(user);
+        User userSave = userDao.save(user);
+        myTasksService.saveMyTask(new MyTasks(new Date(), "Creation de compte","Vous avez créer votre compte utilisateur sur la plateforme. Cette opération crée automatiquement deux comptes : Un compte Courant et un compte Epargne. Merci de choisir Ebanque.",userSave));
+        return userSave;
     }
 
     @Override
