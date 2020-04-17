@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         "/",
         "/login",
         "/password",
+        "/accountCreated",
         "/page-register"
     };
 

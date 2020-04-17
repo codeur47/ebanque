@@ -65,7 +65,7 @@ public class HomeController {
     }
 
     @PostMapping("/page-register")
-    public String createUser(@ModelAttribute("user") User user, Model model) {
+    public String createUser(@ModelAttribute("user") User user, Model model) throws InterruptedException {
         if(userService.existsUsersByUsernameAndEmail(user.getUsername(), user.getEmail())){
             if(userService.existsUserByUsername(user.getUsername())) model.addAttribute("usernameExists","true");
             if(userService.existsUsersByEmail(user.getEmail())) model.addAttribute("emailExists","true");
@@ -74,7 +74,8 @@ public class HomeController {
             Set<UserRole> userRoles = new HashSet<>();
             userRoles.add(new UserRole(user, roleService.findRoleByName("ROLE_USER")));
             userService.createUser(user, userRoles);
-            return "redirect:/";
+            model.addAttribute("accountCreated",true);
+            return "accountCreated";
         }        
     }
 
